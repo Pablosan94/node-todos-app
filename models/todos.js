@@ -64,6 +64,21 @@ class Todos {
     }
   }
 
+  toggleCompleted(ids = []) {
+    ids.forEach((id) => {
+      const todo = this._list[id];
+      if (!todo.completedAt) {
+        todo.completedAt = new Date().toISOString();
+      }
+    });
+
+    this.list.forEach((todo) => {
+      if (!ids.includes(todo.id)) {
+        this._list[todo.id].completedAt = null;
+      }
+    });
+  }
+
   deleteTodo(id = '') {
     if (this._list[id]) {
       delete this._list[id];

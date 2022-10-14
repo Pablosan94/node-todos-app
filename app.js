@@ -3,7 +3,9 @@ const {
   inquirerMenu,
   pause,
   readInput,
+  todoCompleteForm,
   todoDeleteForm,
+  confirm,
 } = require('./helpers/inquirer');
 const Todos = require('./models/todos');
 
@@ -35,8 +37,20 @@ const main = async () => {
       case '4':
         todos.listPending();
         break;
+      case '5':
+        const ids = await todoCompleteForm(todos.list);
+        todos.toggleCompleted(ids);
+        break;
       case '6':
         const id = await todoDeleteForm(todos.list);
+        if (id !== 'Cancel') {
+          const ok = await confirm(
+            'Are you sure you want to delete this to-do?'
+          );
+          if (ok) {
+            todos.deleteTodo(id);
+          }
+        }
         break;
     }
 

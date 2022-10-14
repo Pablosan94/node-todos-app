@@ -62,9 +62,33 @@ const readInput = async (message) => {
   return description;
 };
 
+const todoCompleteForm = async (todos = []) => {
+  const choices = todos.map((todo) => {
+    return { value: todo.id, name: todo.description, checked: !!todo.completedAt };
+  });
+
+  const question = [
+    {
+      type: 'checkbox',
+      name: 'ids',
+      message: 'Complete to-do(s)',
+      choices,
+    },
+  ];
+
+  const { ids } = await inquirer.prompt(question);
+
+  return ids;
+};
+
 const todoDeleteForm = async (todos = []) => {
   const choices = todos.map((todo) => {
     return { value: todo.id, name: todo.description };
+  });
+
+  choices.push({
+    value: 'Cancel',
+    name: 'Cancel'.bgRed.white,
   });
 
   const question = [
@@ -81,9 +105,24 @@ const todoDeleteForm = async (todos = []) => {
   return id;
 };
 
+const confirm = async (message) => {
+  const question = [
+    {
+      type: 'confirm',
+      name: 'ok',
+      message,
+    },
+  ];
+
+  const { ok } = await inquirer.prompt(question);
+  return ok;
+};
+
 module.exports = {
   inquirerMenu,
   pause,
   readInput,
+  todoCompleteForm,
   todoDeleteForm,
+  confirm,
 };

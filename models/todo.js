@@ -6,10 +6,6 @@ class Todo {
     this.description = description;
     this.completedAt = null;
   }
-
-  completeTodo() {
-    this.completedAt = new Date().toISOString();
-  }
 }
 
 module.exports = Todo;
